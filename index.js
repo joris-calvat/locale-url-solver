@@ -9,8 +9,8 @@ const setRules = (r) => {
 };
 
 setRules.solve = (url) => {
-    for(let locale in rules.locales) {
-        let r = rules[locale];
+    for (var locale in rules.locales) {
+        var r = rules.locales[locale];
         if(url.search(r)>-1) {
             return locale;
         }
