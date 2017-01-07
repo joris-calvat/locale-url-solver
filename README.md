@@ -39,7 +39,7 @@ console.log(locale);
 
 ### get locales
 
-simply returns the list of locale keys list
+simply returns locale keys list
 
 ```javascript
 var locales = LocaleUrlSolver.getLocales();
@@ -51,11 +51,11 @@ console.log(locales);
 
 ### is a locale set
 
-check if a locale is in the rules list
+check if a locale is set in the rules list
 
 ```javascript
-var locales = LocaleUrlSolver.isSet('it');
-console.log(locales);
+var isSet = LocaleUrlSolver.isSet('it');
+console.log(isSet);
 ```
 ```bash
 >> true
