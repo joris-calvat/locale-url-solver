@@ -7,12 +7,14 @@ var rules = {
 
 
 const Solver = (r) => {
+
     rules = r;
 };
 
 Solver.solve = (url) => {
-    for(let locale in rules.locales) {
-        let r = rules[locale];
+
+    for (var locale in rules.locales) {
+        var r = rules.locales[locale];
         if(url.search(r)>-1) {
             return locale;
         }
@@ -21,12 +23,21 @@ Solver.solve = (url) => {
 };
 
 Solver.getLocales = () => {
-    return rules.locales.keys().sort();
+
+    var list = [];//rules.locales.keys();
+    for (var locale in rules.locales) {
+        list.push(locale);
+    }
+
+    if(list.indexOf(rules.default) === -1) {
+        list.push(rules.default);
+    }
+    return list.sort();
 };
 
 Solver.isSet = (locale) => {
-    return rules.locales[locale] == undefined ? false:true;
-};
 
+    return rules.locales[locale] !== undefined || rules.default === locale  ? true:false;
+};
 
 module.exports = Solver;
