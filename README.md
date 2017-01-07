@@ -1,62 +1,125 @@
-locale url solver
 
 ## Introduction
 
-apply your own policy to get the locale related to your urls
+locale-url-solver is a nodejs module.
 
-## install
+It helps you to to get the locale related to your urls.
+But first you have to specify your own policy. 
+
+It can be used :
+- server side with your prefered framework
+- in the browser if you require('locale-url-solver') it in your javascript blender
+
+## Requirements
+
+You have to be familiar with [regular expressions](https://en.wikipedia.org/wiki/Regular_expression)
+
+## Install
+
 ```bash
 $ npm install locale-url-solver
 ```
 
-## how to use
+## How to use ?
 
-### init
+### Init and solve
+
+#### Simple patterns
+
+Specify a default locale. 
+Then set locales patterns.
 
 ```javascript
-const LocaleUrlSolver = require('locale-url-solver');
-
 LocaleUrlSolver({
-    default: 'de',
+    default: 'en',
     locales: {
-        de: /^http(s)?:\/\/((www|beta|pre).website\.com\/de\/|(beta\.|pre\.)?de\.)/,
-        fr: /^http(s)?:\/\/((www|beta|pre).website\.com\/fr\/|(beta\.|pre\.)?fr\.)/,
-        en: /^http(s)?:\/\/((www|beta|pre).website\.com\/en\/|(beta\.|pre\.)?en\.)/,
-        it: /^http(s)?:\/\/((www|beta|pre).website\.com\/it\/|(beta\.|pre\.)?it\.)/
+        'de': /^http(s)?:\/\/[^\/]*((.de)|\/de)($|\/)/,
+        'fr': /^http(s)?:\/\/fr\.[^\/]+($|\/)(.*)$/
+    }
+});
+
+LocaleUrlSolver.solve('http://www.website.com');
+>> en
+
+LocaleUrlSolver.solve('http://fr.website.com');
+>> fr
+
+LocaleUrlSolver.solve('http://fr.website.com/path/is/long');
+>> fr
+
+LocaleUrlSolver.solve('http://www.website.de');
+>> de
+
+LocaleUrlSolver.solve('http://www.website.com/de');
+>> de
+```
+
+#### Grouped pattern
+
+You may have a global policy, you can simplify with one pattern
+- locale keys are separated by '|' 
+- the 'LANG' keyword represent a locale
+
+```javascript
+LocaleUrlSolver({
+    default: 'en',
+    locales: {
+        'de|fr|es': /^http(s)?:\/\/([^\/]*\/LANG($|\/)|LANG\.[^\/]+($|\/)(.*)$)/
+    }
+});
+
+LocaleUrlSolver.solve('http://www.website.com');
+>> en
+
+LocaleUrlSolver.solve('http://fr.website.com');
+>> fr
+
+LocaleUrlSolver.solve('http://fr.website.com/path/is/long');
+>> fr
+
+LocaleUrlSolver.solve('http://www.website.com/de');
+>> de
+
+LocaleUrlSolver.solve('http://www.website.com/es/path/is/long/');
+>> es
+```
+
+By default it looks for the 'SEARCH' word, you can change it easily
+
+```javascript
+LocaleUrlSolver({
+    default: 'en',
+    locales: {
+        'de|fr|es': /^http(s)?:\/\/([^\/]*\/STUFF($|\/)|STUFF\.[^\/]+($|\/)(.*)$)/
+    },
+    search:'STUFF'
+});
+```
+
+#### Mix simple patterns and grouped patterns
+
+You can use all patterns
+
+```javascript
+LocaleUrlSolver({
+    default: 'en',
+    locales: {
+        'fr': /^http(s)?:\/\/fr\.[^\/]+($|\/)(.*)$/,
+        'de|es': /^http(s)?:\/\/([^\/]*\/LANG($|\/)|LANG\.[^\/]+($|\/)(.*)$)/
     }
 });
 ```
 
-### use it
+### Get the locale keys list
 
 ```javascript
-var locale = LocaleUrlSolver.solve('https://fr.website.com');
-console.log(locale);
-```
-```bash
->> fr
-```
-
-### get locales
-
-simply returns locale keys list
-
-```javascript
-var locales = LocaleUrlSolver.getLocales();
-console.log(locales);
-```
-```bash
+LocaleUrlSolver.getLocales();
 >> [ 'de', 'en', 'fr', 'it' ]
 ```
 
-### is a locale set
-
-check if a locale is set in the rules list
+### Is a locale set in my rules ?
 
 ```javascript
-var isSet = LocaleUrlSolver.isSet('it');
-console.log(isSet);
-```
-```bash
+LocaleUrlSolver.isSet('it');
 >> true
 ```

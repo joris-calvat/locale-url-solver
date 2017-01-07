@@ -1,14 +1,43 @@
-
-var rules = {
-    default: 'en',
-    locales: {}
+const getDefaultRules = () => {
+    return {
+        default: 'en',
+        locales: {},
+        search:'LANG'
+    };
 };
+
+
+var rules = getDefaultRules();
 
 
 
 const Solver = (r) => {
+    rules = getDefaultRules();
+    rules.default = r.default || rules.default;
+    rules.search = r.search || rules.search;
 
-    rules = r;
+    let locales = r.locales;
+
+
+    for(let localeNames in locales) {
+
+        let currentPolicy = locales[localeNames];
+        let names = localeNames.split('|');
+
+        for(let i = 0; i<names.length; i++) {
+
+            let name = names[i];
+            let policy = currentPolicy.toString();
+            policy = policy.replace(new RegExp(rules.search, 'g'), name);
+            policy = policy.substr(0, policy.length-1).substr(1);
+            rules.locales[name] = new RegExp(policy);
+            //console.log(policy);
+        }
+    }
+    //var tmpRulesObject = Object.assign({}, r)
+
+
+    //rules = r;
 };
 
 Solver.solve = (url) => {
@@ -39,5 +68,9 @@ Solver.isSet = (locale) => {
 
     return rules.locales[locale] !== undefined || rules.default === locale  ? true:false;
 };
+
+Solver.getRules = () => {
+    return rules;
+}
 
 module.exports = Solver;

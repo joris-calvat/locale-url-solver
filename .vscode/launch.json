@@ -22,6 +22,15 @@
         },
         {
             "type": "node",
+            "request": "launch",
+            "name": "Lancer le test de doc",
+            "program": "${workspaceRoot}\\test/doc-test.js",
+            "cwd": "${workspaceRoot}",
+            "outFiles": [],
+            "sourceMaps": true
+        },
+        {
+            "type": "node",
             "request": "attach",
             "name": "Attach to Process",
             "port": 5858
