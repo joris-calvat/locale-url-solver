@@ -1,6 +1,6 @@
 {
   "name": "locale-url-solver",
-  "version": "1.0.1",
+  "version": "1.0.2",
   "description": "check the url according to config rules, it returns the related locale",
   "main": "index.js",
   "scripts": {
