@@ -1,14 +1,16 @@
-var rawRules = [];
+
 var rules = {
     default: 'en',
     locales: {}
 };
 
-const setRules = (r) => {
+
+
+const Solver = (r) => {
     rules = r;
 };
 
-setRules.solve = (url) => {
+Solver.solve = (url) => {
     for(let locale in rules.locales) {
         let r = rules[locale];
         if(url.search(r)>-1) {
@@ -18,4 +20,13 @@ setRules.solve = (url) => {
     return rules.default;
 };
 
-module.exports = setRules;
+Solver.getLocales = () => {
+    return rules.locales.keys().sort();
+};
+
+Solver.isSet = (locale) => {
+    return rules.locales[locale] == undefined ? false:true;
+};
+
+
+module.exports = Solver;
