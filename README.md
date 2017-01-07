@@ -22,6 +22,10 @@ $ npm install locale-url-solver
 
 ## How to use ?
 
+```javascript
+const LocaleUrlSolver = require('locale-url-solver');
+```
+
 ### Init and solve
 
 #### Simple patterns
