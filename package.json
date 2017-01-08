@@ -1,6 +1,6 @@
 {
   "name": "locale-url-solver",
-  "version": "1.0.5",
+  "version": "1.0.6",
   "description": "check a url according to rules patterns, returns the related locale",
   "main": "index.js",
   "scripts": {
