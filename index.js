@@ -1,76 +1,92 @@
-const getDefaultRules = () => {
-    return {
-        default: 'en',
-        locales: {},
-        search:'LANG'
-    };
-};
 
+var rules, defaultLocale, locales, searchKey;
 
-var rules = getDefaultRules();
+const init = () => {
 
-
+    rules = new Array();
+    locales = new Array();
+    defaultLocale = null;
+    searchKey = 'LANG';
+}
 
 const Solver = (r) => {
-    rules = getDefaultRules();
-    rules.default = r.default || rules.default;
-    rules.search = r.search || rules.search;
 
-    let locales = r.locales;
+    init();
 
+    searchKey = r.search || searchKey;
 
-    for(let localeNames in locales) {
+    for(let localeNames in r.locales) {
 
-        let currentPolicy = locales[localeNames];
+        let currentPolicy = r.locales[localeNames];
         let names = localeNames.split('|');
+
 
         for(let i = 0; i<names.length; i++) {
 
             let name = names[i];
-            let policy = currentPolicy.toString();
-            policy = policy.replace(new RegExp(rules.search, 'g'), name);
-            policy = policy.substr(0, policy.length-1).substr(1);
-            rules.locales[name] = new RegExp(policy);
-            //console.log(policy);
+
+            if(defaultLocale === null) {
+                defaultLocale = name;
+            }
+
+            let policy = currentPolicy.toString().replace(new RegExp(searchKey, 'g'), name);
+            rules.push({
+                name:name,
+                rule: new RegExp(policy.substr(0, policy.length-1).substr(1))
+            });
+            locales.push(name);
         }
+
+        defaultLocale = r.default || defaultLocale;
+
+        if(locales.indexOf(defaultLocale) === -1) {
+            locales.push(defaultLocale);
+        }
+
+        locales.sort();
     }
-    //var tmpRulesObject = Object.assign({}, r)
-
-
-    //rules = r;
 };
 
 Solver.solve = (url) => {
 
-    for (var locale in rules.locales) {
-        var r = rules.locales[locale];
-        if(url.search(r)>-1) {
-            return locale;
+    for (let i = 0; i<rules.length; i++) {
+        var r = rules[i];
+        if(url.search(r.rule)>-1) {
+            return r.name;
         }
     }
-    return rules.default;
+    return defaultLocale;
+};
+
+Solver.getDefault = (locale) => {
+
+    return defaultLocale;
 };
 
 Solver.getLocales = () => {
 
-    var list = [];//rules.locales.keys();
-    for (var locale in rules.locales) {
-        list.push(locale);
-    }
-
-    if(list.indexOf(rules.default) === -1) {
-        list.push(rules.default);
-    }
-    return list.sort();
+    return locales;
 };
 
 Solver.isSet = (locale) => {
 
-    return rules.locales[locale] !== undefined || rules.default === locale  ? true:false;
+    if(defaultLocale === locale) {
+        return true;
+    }
+
+    for (let i = 0; i<rules.length; i++) {
+        if(rules[i].name === locale) {
+            return true;
+        }
+    }
+
+    return false;
 };
 
+/*
 Solver.getRules = () => {
     return rules;
 }
+*/
 
 module.exports = Solver;

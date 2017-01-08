@@ -26,12 +26,25 @@ $ npm install locale-url-solver
 const LocaleUrlSolver = require('locale-url-solver');
 ```
 
-### Init and solve
+### Init
+
+Init with a litteral object :
+
+```javascript
+LocaleUrlSolver({
+    default: 'en',
+    locales: {
+        'fr': /^http(s)?:\/\/fr\.[^\/]+($|\/)(.*)$/,
+        'de|es': /^http(s)?:\/\/([^\/]*\/LANG($|\/)|LANG\.[^\/]+($|\/)(.*)$)/
+    }
+});
+```
+
+### Solve an url to get the locale
 
 #### Simple patterns
 
-Specify a default locale. 
-Then set locales patterns.
+A key is a locale 
 
 ```javascript
 LocaleUrlSolver({
@@ -44,25 +57,23 @@ LocaleUrlSolver({
 
 LocaleUrlSolver.solve('http://www.website.com');
 >> en
-
 LocaleUrlSolver.solve('http://fr.website.com');
 >> fr
-
 LocaleUrlSolver.solve('http://fr.website.com/path/is/long');
 >> fr
-
 LocaleUrlSolver.solve('http://www.website.de');
 >> de
-
 LocaleUrlSolver.solve('http://www.website.com/de');
 >> de
 ```
 
 #### Grouped pattern
 
+A key is a group of locales 
+
 You may have a global policy, you can simplify with one pattern
-- locale keys are separated by '|' 
-- the 'LANG' keyword represent a locale
+- locale keys are separated by '|'
+- the 'LANG' keyword represents a locale
 
 ```javascript
 LocaleUrlSolver({
@@ -72,23 +83,11 @@ LocaleUrlSolver({
     }
 });
 
-LocaleUrlSolver.solve('http://www.website.com');
->> en
-
-LocaleUrlSolver.solve('http://fr.website.com');
->> fr
-
-LocaleUrlSolver.solve('http://fr.website.com/path/is/long');
->> fr
-
-LocaleUrlSolver.solve('http://www.website.com/de');
->> de
-
 LocaleUrlSolver.solve('http://www.website.com/es/path/is/long/');
 >> es
 ```
 
-By default it looks for the 'SEARCH' word, you can change it easily
+It looks for the 'LANG' word, you can change this keyword
 
 ```javascript
 LocaleUrlSolver({
@@ -102,7 +101,19 @@ LocaleUrlSolver({
 
 #### Mix simple patterns and grouped patterns
 
-You can use all patterns
+```javascript
+LocaleUrlSolver({
+    default: 'en',
+    locales: {
+        'fr': /^http(s)?:\/\/fr\.[^\/]+($|\/)(.*)$/,
+        'de|es': /^http(s)?:\/\/([^\/]*\/LANG($|\/)|LANG\.[^\/]+($|\/)(.*)$)/
+    }
+});
+```
+
+### Set and get default locale
+
+Default locale can be explicitly set
 
 ```javascript
 LocaleUrlSolver({
@@ -112,6 +123,23 @@ LocaleUrlSolver({
         'de|es': /^http(s)?:\/\/([^\/]*\/LANG($|\/)|LANG\.[^\/]+($|\/)(.*)$)/
     }
 });
+
+LocaleUrlSolver.getDefault();
+>> en
+```
+
+If not specified, the default locale is the first key
+
+```javascript
+LocaleUrlSolver({
+    locales: {
+        'fr': /^http(s)?:\/\/fr\.[^\/]+($|\/)(.*)$/,
+        'de|es': /^http(s)?:\/\/([^\/]*\/LANG($|\/)|LANG\.[^\/]+($|\/)(.*)$)/
+    }
+});
+
+LocaleUrlSolver.getDefault();
+>> fr
 ```
 
 ### Get the locale keys list
@@ -127,3 +155,14 @@ LocaleUrlSolver.getLocales();
 LocaleUrlSolver.isSet('it');
 >> true
 ```
+
+## Perfomances
+
+The first match returns the locale.
+So the order of the rules is important:
+- add a default locale rule at the first position.
+- order the rules according to your website traffic.
+
+## Test coverage
+
+This module is 100% covered by 31 tests 

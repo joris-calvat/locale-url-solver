@@ -14,8 +14,8 @@
         {
             "type": "node",
             "request": "launch",
-            "name": "Lancer le test",
-            "program": "${workspaceRoot}\\test/test.js",
+            "name": "test/test-solve.js",
+            "program": "${workspaceRoot}\\test/test-solve.js",
             "cwd": "${workspaceRoot}",
             "outFiles": [],
             "sourceMaps": true
@@ -23,8 +23,8 @@
         {
             "type": "node",
             "request": "launch",
-            "name": "Lancer le test de doc",
-            "program": "${workspaceRoot}\\test/doc-test.js",
+            "name": "test/doc-solve.js",
+            "program": "${workspaceRoot}\\test/doc-solve.js",
             "cwd": "${workspaceRoot}",
             "outFiles": [],
             "sourceMaps": true

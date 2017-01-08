@@ -4,7 +4,7 @@
   "description": "check the url according to config rules, it returns the related locale",
   "main": "index.js",
   "scripts": {
-    "test": "lab -c -m 60000 -t 60%"
+    "test": "lab -c -m 60000 -t 100%"
   },
   "repository": {
     "type": "git",
