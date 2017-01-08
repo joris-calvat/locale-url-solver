@@ -71,7 +71,7 @@ LocaleUrlSolver.solve('http://www.website.com/de');
 
 A key is a group of locales 
 
-You may have a global policy, you can simplify with one pattern
+You may have a global url policy, you can simplify with one pattern
 - locale keys are separated by '|'
 - the 'LANG' keyword represents a locale
 
@@ -165,4 +165,4 @@ So the order of the rules is important:
 
 ## Test coverage
 
-This module is 100% covered by 31 tests 
+This module is 100% covered by 32 tests 

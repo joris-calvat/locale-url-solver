@@ -58,7 +58,7 @@ Solver.solve = (url) => {
     return defaultLocale;
 };
 
-Solver.getDefault = (locale) => {
+Solver.getDefault = () => {
 
     return defaultLocale;
 };

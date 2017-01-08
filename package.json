@@ -1,18 +1,27 @@
 {
   "name": "locale-url-solver",
   "version": "1.0.5",
-  "description": "check the url according to config rules, it returns the related locale",
+  "description": "check a url according to rules patterns, returns the related locale",
   "main": "index.js",
   "scripts": {
-    "test": "lab -c -m 60000 -t 100%"
+    "test": "lab -c -m 100 -t 100%"
   },
   "repository": {
     "type": "git",
     "url": "git+https://github.com/joris-calvat/locale-url-solver.git"
   },
   "keywords": [
+    "lang",
     "locale",
+    "pattern",
+    "policy",
+    "uri",
     "url",
+    "resolve",
+    "resolver",
+    "rule",
+    "rules",
+    "solve",
     "solver"
   ],
   "author": "joris calvat",

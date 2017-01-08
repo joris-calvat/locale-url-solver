@@ -1,4 +1,3 @@
-'use strict';
 
 var Lab = require('lab');
 var lab = Lab.script();
