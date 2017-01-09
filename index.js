@@ -36,15 +36,15 @@ const Solver = (r) => {
             });
             locales.push(name);
         }
-
-        defaultLocale = r.default || defaultLocale;
-
-        if(locales.indexOf(defaultLocale) === -1) {
-            locales.push(defaultLocale);
-        }
-
-        locales.sort();
     }
+    
+    defaultLocale = r.default || defaultLocale;
+
+    if(locales.indexOf(defaultLocale) === -1) {
+        locales.push(defaultLocale);
+    }
+
+    locales.sort();
 };
 
 Solver.solve = (url) => {

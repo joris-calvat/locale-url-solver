@@ -165,4 +165,4 @@ So the order of the rules is important:
 
 ## Test coverage
 
-This module is 100% covered by 32 tests 
+This module is 100% covered by 33 tests 

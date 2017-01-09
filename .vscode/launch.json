@@ -23,6 +23,15 @@
         {
             "type": "node",
             "request": "launch",
+            "name": "test/test-getLocales.js",
+            "program": "${workspaceRoot}\\test/test-getLocales.js",
+            "cwd": "${workspaceRoot}",
+            "outFiles": [],
+            "sourceMaps": true
+        },
+        {
+            "type": "node",
+            "request": "launch",
             "name": "test/doc-solve.js",
             "program": "${workspaceRoot}\\test/doc-solve.js",
             "cwd": "${workspaceRoot}",

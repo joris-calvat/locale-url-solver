@@ -51,6 +51,33 @@ lab.experiment('getLocales method should', () => {
             done();
         });
     });
+
+    
+
+    lab.experiment('have less than specified', () => {
+        
+        lab.before((done) => {
+
+            LocaleUrlSolver({
+                default: 'en',
+                locales: {
+                    de: /^http(s)?:\/\/([a-z]|[:.\-_]|[0-9])*\/de($|\/)/,
+                    fr: /^http(s)?:\/\/([a-z]|[:.\-_]|[0-9])*\/fr($|\/)/,
+                    en: /^http(s)?:\/\/([a-z]|[:.\-_]|[0-9])*\/en($|\/)/,
+                }
+            });
+
+            done();
+        });
+
+        lab.test('and return 3 keys', (done) => {
+
+            let locales = LocaleUrlSolver.getLocales();
+            Code.expect(locales.length).to.equal(3);
+            done();
+        });
+    });
+
 });
 
 module.exports = {
